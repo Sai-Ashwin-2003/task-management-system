@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for the Spring Boot backend API
-const API_BASE_URL = 'http://localhost:8080/tasks';
+const API_URL = "https://task-management-system-production-d6b8.up.railway.app/tasks";
 
 /**
  * TaskService handles all REST API calls using Axios.
