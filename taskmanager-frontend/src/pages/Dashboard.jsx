@@ -37,7 +37,7 @@ const Dashboard = () => {
       setTasks(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       console.error('Error fetching tasks from backend:', err);
-      setApiError('Unable to connect to the backend server. Please verify http://localhost:8080 is online.');
+      setApiError('Unable to connect to the backend server. Please verify the API is online.');
       triggerToast('Backend connection error!', 'error');
     } finally {
       setIsLoading(false);
