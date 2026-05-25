@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for the Spring Boot backend API
-const API_BASE_URL = "https://task-management-system-production-d6b8.up.railway.app/tasks";
+const API_BASE_URL = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/tasks` : "https://taskmanager-backend-wct1.onrender.com/tasks";
 
 /**
  * TaskService handles all REST API calls using Axios.
