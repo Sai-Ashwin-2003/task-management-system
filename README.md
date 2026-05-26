@@ -98,6 +98,22 @@ http://localhost:5173
 
 ---
 
+# Deployment Links
+
+## Frontend
+https://task-management-system-tanj.vercel.app/
+
+## Backend
+https://taskmanager-backend-wct1.onrender.com
+
+---
+
+## Demo Video
+
+[Watch Demo Video](https://drive.google.com/file/d/1EZXZ7GLh7OFvcY3MmnHeEaKJoKNDFKXx/view?usp=sharing)
+
+---
+
 # Screenshots
 
 ## Dashboard
@@ -136,10 +152,4 @@ http://localhost:5173
 
 ---
 
-# Deployment Links
 
-## Frontend
-https://task-management-system-tanj.vercel.app/
-
-## Backend
-https://taskmanager-backend-wct1.onrender.com
