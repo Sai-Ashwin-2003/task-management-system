@@ -108,7 +108,7 @@ http://localhost:5173
 
 ## Create a New Task
 
-<img width="100%" src="./screenshots/Create new task.png">
+<img width="100%" src="./screenshots/New task creation.png">
 
 ---
 
