@@ -1,47 +1,24 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Edit3, Trash2, Search, ClipboardList, AlertCircle, RefreshCw, BarChart2 } from 'lucide-react';
-
-/**
- * TaskList Component
- * Displays search & filters, list of task cards, and quick actions.
- * Designed to be interview-friendly with clean code comments.
- */
 const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
-  // 1. Local State for Searching, Filtering and Sorting
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [priorityFilter, setPriorityFilter] = useState('All');
   const [sortBy, setSortBy] = useState('Default'); // Default (by ID/arrival), Title, Priority
-
-  // Helper mapping for Priority weight sorting
   const priorityWeights = { High: 3, Medium: 2, Low: 1 };
-
-  // 2. Filter & Sort Logic
-  // Filter the master list of tasks based on active search queries and selection filters
   const filteredTasks = tasks.filter((task) => {
     if (!task) return false;
-
-    // Safely extract string properties to prevent runtime Null Pointer/Type errors
     const title = task.title || '';
     const description = task.description || '';
     const status = task.status || 'Pending';
     const priority = task.priority || 'Low';
-
-    // Search keyword match (title or description)
     const matchesSearch =
       title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       description.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    // Status match
     const matchesStatus = statusFilter === 'All' || status === statusFilter;
-    
-    // Priority match
     const matchesPriority = priorityFilter === 'All' || priority === priorityFilter;
-
     return matchesSearch && matchesStatus && matchesPriority;
   });
-
-  // Sort the filtered list safely
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     const titleA = a.title || '';
     const titleB = b.title || '';
@@ -49,7 +26,6 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
     const priorityB = b.priority || 'Low';
     const statusA = a.status || 'Pending';
     const statusB = b.status || 'Pending';
-
     if (sortBy === 'Title') {
       return titleA.localeCompare(titleB);
     }
@@ -61,8 +37,6 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
     }
     return 0; // Maintain default API sorting (usually by ID)
   });
-
-  // Helper method to get correct priority badge styling class
   const getPriorityBadgeClass = (priority) => {
     switch (priority) {
       case 'High': return 'badge-priority-high';
@@ -71,8 +45,6 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
       default: return 'badge-priority-low';
     }
   };
-
-  // Helper method to get correct status badge styling class
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case 'Completed': return 'badge-status-completed';
@@ -81,18 +53,15 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
       default: return 'badge-status-pending';
     }
   };
-
   return (
     <div className="task-list-panel">
-      
-      {/* Search and Filters Header bar */}
+      {}
       <div className="actions-bar">
         <h3 style={{ fontSize: '1.25rem', fontFamily: 'Outfit', fontWeight: '700', marginBottom: '0.25rem' }}>
           All Task Board ({sortedTasks.length})
         </h3>
-        
         <div className="search-filter-row">
-          {/* A. Search Box */}
+          {}
           <div className="search-box">
             <Search size={18} className="search-icon" />
             <input
@@ -103,8 +72,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-
-          {/* B. Status Filter Dropdown */}
+          {}
           <select
             className="filter-select"
             value={statusFilter}
@@ -115,8 +83,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
           </select>
-
-          {/* C. Priority Filter Dropdown */}
+          {}
           <select
             className="filter-select"
             value={priorityFilter}
@@ -127,8 +94,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
             <option value="Medium">Medium Priority</option>
             <option value="High">High Priority</option>
           </select>
-
-          {/* D. Sorting Dropdown */}
+          {}
           <select
             className="filter-select"
             value={sortBy}
@@ -141,10 +107,8 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
           </select>
         </div>
       </div>
-
-      {/* Task Cards Grid View */}
+      {}
       {sortedTasks.length === 0 ? (
-        /* Empty State */
         <div className="empty-state">
           <ClipboardList className="empty-icon" size={48} />
           <p className="empty-title">No Tasks Found</p>
@@ -159,7 +123,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
               key={task.id}
               className={`task-card ${task.status === 'Completed' ? 'task-completed' : ''}`}
             >
-              {/* Task Header Details */}
+              {}
               <div className="task-card-header">
                 <div>
                   <h4 className="task-title">{task.title}</h4>
@@ -167,8 +131,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
                     <p className="task-description">{task.description}</p>
                   )}
                 </div>
-                
-                {/* Visual Status & Priority Pill Badges */}
+                {}
                 <div className="badges-row">
                   <span className={`badge ${getPriorityBadgeClass(task.priority)}`}>
                     {task.priority}
@@ -178,11 +141,9 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
                   </span>
                 </div>
               </div>
-
-              {/* Task Footer Actions */}
+              {}
               <div className="task-card-footer">
-                
-                {/* Quick Status State Switcher - Extremely Premium UX */}
+                {}
                 <div className="quick-status-control">
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
                     Status:
@@ -197,10 +158,9 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
                     <option value="Completed">Completed</option>
                   </select>
                 </div>
-
-                {/* Edit & Delete Action Buttons */}
+                {}
                 <div className="card-actions-buttons">
-                  {/* Edit Trigger */}
+                  {}
                   <button
                     className="icon-btn icon-btn-edit"
                     title="Edit Task Details"
@@ -208,8 +168,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
                   >
                     <Edit3 size={16} />
                   </button>
-
-                  {/* Delete Trigger */}
+                  {}
                   <button
                     className="icon-btn icon-btn-delete"
                     title="Delete Task"
@@ -222,7 +181,6 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
                     <Trash2 size={16} />
                   </button>
                 </div>
-
               </div>
             </div>
           ))}
@@ -231,5 +189,5 @@ const TaskList = ({ tasks, onEdit, onDelete, onStatusChange }) => {
     </div>
   );
 };
-
 export default TaskList;
+

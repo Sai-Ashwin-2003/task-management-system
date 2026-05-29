@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { PlusCircle, Save, XCircle } from 'lucide-react';
 import TaskService from '../services/TaskService';
-
-/**
- * TaskForm Component
- * Renders a form to either CREATE a new task or UPDATE an existing task.
- * Designed to be easy to understand with comprehensive comments for interviews.
- */
 const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
-  // 1. Local State variables bound to form inputs
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState('Pending'); // Default status
   const [priority, setPriority] = useState('Low'); // Default priority
-  
-  // State to handle validation/error messages
+  const [status, setStatus] = useState('Pending');
+  const [priority, setPriority] = useState('Low');
   const [error, setError] = useState('');
-  // State to manage loading spinners
   const [isLoading, setIsLoading] = useState(false);
-
-  // 2. Side Effect: Reacts when the "taskToEdit" prop changes.
-  // If taskToEdit is provided, we pre-fill the form (Edit Mode).
-  // If taskToEdit is null, we clear the form (Add Mode).
   useEffect(() => {
     if (taskToEdit) {
       setTitle(taskToEdit.title || '');
@@ -33,8 +21,6 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
       resetForm();
     }
   }, [taskToEdit]);
-
-  // Helper method to clear the form inputs
   const resetForm = () => {
     setTitle('');
     setDescription('');
@@ -42,38 +28,28 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
     setPriority('Low');
     setError('');
   };
-
-  // 3. Form Submit Handler
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent standard page reload
-
-    // Basic Validation
+    e.preventDefault();
     if (!title.trim()) {
       setError('Task title is required');
       return;
     }
-
-    // Construct the payload to match the backend entity
     const taskPayload = {
       title: title.trim(),
       description: description.trim(),
       status,
       priority
     };
-
     setIsLoading(true);
     setError('');
-
     try {
       if (taskToEdit) {
-        // Edit Mode: Send PUT request
         const response = await TaskService.updateTask(taskToEdit.id, taskPayload);
         onSaveSuccess('Task updated successfully!', response.data);
       } else {
-        // Add Mode: Send POST request
         const response = await TaskService.createTask(taskPayload);
         onSaveSuccess('Task created successfully!', response.data);
-        resetForm(); // Reset form fields on successful creation
+        resetForm();
       }
     } catch (err) {
       console.error('Error saving task:', err);
@@ -82,10 +58,8 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="glass-card form-panel">
-      {/* Form Title & Icon Dynamic change based on Edit / Add mode */}
       <div className="form-header">
         <span className="stat-icon" style={{ width: '38px', height: '38px', borderRadius: '10px' }}>
           {taskToEdit ? <Save size={18} /> : <PlusCircle size={18} />}
@@ -94,10 +68,7 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
           {taskToEdit ? 'Edit Task Details' : 'Create New Task'}
         </h3>
       </div>
-
-      {/* Form Body */}
       <form onSubmit={handleSubmit}>
-        {/* Error Alert Box */}
         {error && (
           <div style={{
             background: 'var(--priority-high-bg)',
@@ -112,8 +83,6 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
             {error}
           </div>
         )}
-
-        {/* 1. Title Input */}
         <div className="form-group">
           <label htmlFor="task-title" className="form-label">Task Title *</label>
           <input
@@ -127,8 +96,6 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
             maxLength={100}
           />
         </div>
-
-        {/* 2. Description Input */}
         <div className="form-group">
           <label htmlFor="task-description" className="form-label">Description</label>
           <textarea
@@ -141,8 +108,6 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
             maxLength={500}
           />
         </div>
-
-        {/* 3. Priority Dropdown */}
         <div className="form-group">
           <label htmlFor="task-priority" className="form-label">Priority Level</label>
           <select
@@ -157,8 +122,6 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
             <option value="High">High</option>
           </select>
         </div>
-
-        {/* 4. Status Dropdown */}
         <div className="form-group">
           <label htmlFor="task-status" className="form-label">Current Status</label>
           <select
@@ -173,10 +136,7 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
             <option value="Completed">Completed</option>
           </select>
         </div>
-
-        {/* Form Action Buttons */}
         <div className="form-actions">
-          {/* Submit Button */}
           <button
             type="submit"
             className="btn btn-primary"
@@ -186,8 +146,6 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
             <Save size={18} />
             {isLoading ? 'Saving...' : taskToEdit ? 'Update Task' : 'Add Task'}
           </button>
-
-          {/* Cancel Button - Only displayed during Edit Mode or if custom cancellation callback is active */}
           {(taskToEdit || onCancel) && (
             <button
               type="button"
@@ -207,5 +165,5 @@ const TaskForm = ({ taskToEdit, onSaveSuccess, onCancel }) => {
     </div>
   );
 };
-
 export default TaskForm;
+
